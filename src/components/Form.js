@@ -18,8 +18,13 @@ const Form = () => {
 
   function verifyName(evt) {
     const name = evt.target.value;
-    if (!/^[a-zA-Z0-9 ]+$/.test(name)) setNameError("Name is not alphanumeric");
-    else setNameError(""), setFieldsError("");
+    if (!/^[a-zA-Z0-9 ]+$/.test(name)) {
+      setNameError("Name is not alphanumeric");
+      setFieldsError("");
+    } else {
+      setNameError("");
+      setFieldsError("");
+    }
   }
 
   function verifyEmail(evt) {
@@ -28,7 +33,7 @@ const Form = () => {
       setEmailError("email must contain @");
       return;
     } else setEmailError("");
-    userName = email.split("@")[0];
+    userName = email.split("@")[0].toUpperCase();
   }
 
   function verifyGender(evt) {
