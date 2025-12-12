@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Form = () => {
-  const [fieldError, setFieldsError] = useState("");
+  // const [fieldError, setFieldsError] = useState("");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [genderError, setGenderError] = useState("");
@@ -11,7 +11,7 @@ const Form = () => {
   let name = "";
   function handleSubmit(evt) {
     evt.preventDefault();
-    setFieldsError("All fields are mandatory");
+    // setFieldsError("All fields are mandatory");
   }
 
   function verifyName(evt) {
@@ -74,7 +74,7 @@ const Form = () => {
         <input type="password" data-testid="password" id="password" onBlur={verifyPassword}/>
         <span>{pwdError}</span>
         <button data-testid="submit" type="submit">Submit</button>
-        <span>{fieldError}</span>
+        {/* <span>{fieldError}</span> */}
       </fieldset>
     </form>
   );
