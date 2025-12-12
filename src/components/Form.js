@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 
 const Form = () => {
-  // const [fieldError, setFieldsError] = useState("");
+  const [fieldError, setFieldsError] = useState("All fields are mandatory");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [genderError, setGenderError] = useState("");
   const [numError, setNumError] = useState("");
   const [pwdError, setPwdError] = useState("");
+  const [greet, setGreet] = useState("");
 
-  let name = "";
+  let userName = "";
+
   function handleSubmit(evt) {
     evt.preventDefault();
-    // setFieldsError("All fields are mandatory");
+    setGreet(`Hello ${userName}`);
   }
 
   function verifyName(evt) {
     const name = evt.target.value;
     if (!/^[a-zA-Z0-9 ]+$/.test(name)) setNameError("Name is not alphanumeric");
-    else setNameError("");
+    else setNameError(""), setFieldsError("");
   }
 
   function verifyEmail(evt) {
@@ -26,12 +28,13 @@ const Form = () => {
       setEmailError("email must contain @");
       return;
     } else setEmailError("");
-    name = email;
+    userName = email.split("@")[0];
   }
 
   function verifyGender(evt) {
     const gender = evt.target.value;
-    if (!gender) setGenderError("Please identify as male, female or others");
+    if (gender == "notSelected")
+      setGenderError("Please identify as male, female or others");
     else setGenderError("");
   }
 
@@ -51,9 +54,10 @@ const Form = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2>{greet}</h2>
       {/*prettier-ignore */}
       <fieldset>
-        <legend><h2>User Form</h2></legend>
+        <legend>User Form</legend>
         <label htmlFor="name">Name</label>
         <input type="text" name="name" id="name" data-testid="name" onBlur={verifyName}/>
         <span>{nameError}</span>
@@ -62,6 +66,7 @@ const Form = () => {
         <span>{emailError}</span>
         <label htmlFor="gender">Gender</label>
         <select name="gender" id="gender" defaultValue="male" data-testid="gender" onBlur={verifyGender}>
+          <option value="notSelected">Select any one</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="other">Other</option>
@@ -74,7 +79,7 @@ const Form = () => {
         <input type="password" data-testid="password" id="password" onBlur={verifyPassword}/>
         <span>{pwdError}</span>
         <button data-testid="submit" type="submit">Submit</button>
-        {/* <span>{fieldError}</span> */}
+        <span>{fieldError}</span>
       </fieldset>
     </form>
   );

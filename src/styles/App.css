@@ -1,9 +1,12 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 fieldset {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 300px;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
