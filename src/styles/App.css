@@ -1,12 +1,27 @@
-h1 {
-    color: #27aedb;
-    text-align: center;
-    }
-    
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-button{
-    color: #27aedb;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+h1 {
+  color: #27aedb;
+  text-align: center;
+}
+
+button {
+  color: #27aedb;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  cursor: pointer;
+}
+
+input,
+select {
+  width: 300px;
+  height: 20px;
 }
