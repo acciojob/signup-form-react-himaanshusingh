@@ -4,7 +4,9 @@ const Form = () => {
   const [fieldError, setFieldsError] = useState("All fields are mandatory");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [genderError, setGenderError] = useState("");
+  const [genderError, setGenderError] = useState(
+    "Please identify as male, female or others"
+  );
   const [numError, setNumError] = useState("");
   const [pwdError, setPwdError] = useState("");
   const [greet, setGreet] = useState("");
