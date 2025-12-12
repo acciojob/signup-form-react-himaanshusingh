@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const Form = () => {
+  const [fieldError, setFieldsError] = useState("");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [genderError, setGenderError] = useState("");
@@ -10,20 +11,19 @@ const Form = () => {
   let name = "";
   function handleSubmit(evt) {
     evt.preventDefault();
-    alert(`Hello ${evt.name}`);
+    setFieldsError("All fields are mandatory");
   }
 
   function verifyName(evt) {
     const name = evt.target.value;
-    if (!/^[a-zA-Z0-9 ]+$/.test(name))
-      setNameError("Name is not alphanumeric.");
+    if (!/^[a-zA-Z0-9 ]+$/.test(name)) setNameError("Name is not alphanumeric");
     else setNameError("");
   }
 
   function verifyEmail(evt) {
     const email = evt.target.value;
     if (!email.includes("@")) {
-      setEmailError("Email must contain @");
+      setEmailError("email must contain @");
       return;
     } else setEmailError("");
     name = email;
@@ -53,7 +53,7 @@ const Form = () => {
     <form onSubmit={handleSubmit}>
       {/*prettier-ignore */}
       <fieldset>
-        <legend>Bank Form</legend>
+        <legend><h2>User Form</h2></legend>
         <label htmlFor="name">Name</label>
         <input type="text" name="name" id="name" data-testid="name" onBlur={verifyName}/>
         <span>{nameError}</span>
@@ -74,6 +74,7 @@ const Form = () => {
         <input type="password" data-testid="password" id="password" onBlur={verifyPassword}/>
         <span>{pwdError}</span>
         <button data-testid="submit" type="submit">Submit</button>
+        <span>{fieldError}</span>
       </fieldset>
     </form>
   );
