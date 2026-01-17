@@ -6,6 +6,7 @@ const Form = () => {
   const [values, setValues] = useState(emptyValues);
   const { name, email, gender, phone, password } = values;
   const [formStatus, setFormStatus] = useState("");
+  const [greet, setGreet] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -22,8 +23,8 @@ const Form = () => {
     if (validatePhone(phone)) return setFormStatus(validatePhone(phone));
     if (validatePassword(password))
       return setFormStatus(validatePassword(password));
-    alert(`Hello ${email.split("@")[0]}`);
-    setFormStatus("Your form has been submitted successfully");
+    setGreet(`Hello ${email.split("@")[0].toUpperCase()}`);
+    setFormStatus("Please identify as male, female or others");
   }
 
   function validateName(name) {
@@ -39,9 +40,9 @@ const Form = () => {
   }
 
   function validateGender(gender) {
-  if (["male", "female", "other"].includes(gender)) return "";
-  return "Please identify as male, female or others";
-}
+    if (["male", "female", "other"].includes(gender)) return "";
+    return "Please identify as male, female or others";
+  }
 
   function validatePhone(phone) {
     const trimmed = phone.trim();
@@ -75,6 +76,7 @@ const Form = () => {
         <input type="password" data-testid="password" name="password" onChange={handleChange} value={password}/>
         <button data-testid="submit">Submit</button>
         <span>{formStatus}</span>
+        <h2>{greet}</h2>
       </form>
     </div>
   ); // prettier-ignore
