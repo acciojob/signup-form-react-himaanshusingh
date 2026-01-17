@@ -72,6 +72,11 @@ const Form = () => {
         <input type="text" data-testid="email" name="email" onChange={handleChange} value={email}/>
         <span>{emailErr}</span>
         <label>Gender *</label>
+        <select data-testid="gender" name="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
         <input type="text" data-testid="gender" name="gender" onChange={handleChange} value={gender} />
         <span>{genderErr}</span>
         <label>Phone Number *</label>
