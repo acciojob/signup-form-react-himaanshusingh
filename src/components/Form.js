@@ -4,9 +4,9 @@ const emptyValues = { name: "", email: "", gender: "", phone: "", password: "" }
 
 const Form = () => {
   const [values, setValues] = useState(emptyValues);
-  const { name, email, gender, phone, password } = values;
   const [formStatus, setFormStatus] = useState("");
   const [greet, setGreet] = useState("");
+  const { name, email, gender, phone, password } = values;
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -15,14 +15,12 @@ const Form = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!name && !email && !gender && !phone && !password)
-      return setFormStatus("All fields are mandatory");
+    if (!name && !email && !gender && !phone && !password) return setFormStatus("All fields are mandatory");
     if (validateName(name)) return setFormStatus(validateName(name));
     if (validateEmail(email)) return setFormStatus(validateEmail(email));
     if (validateGender(gender)) return setFormStatus(validateGender(gender));
     if (validatePhone(phone)) return setFormStatus(validatePhone(phone));
-    if (validatePassword(password))
-      return setFormStatus(validatePassword(password));
+    if (validatePassword(password)) return setFormStatus(validatePassword(password));
     setGreet(`Hello ${email.split("@")[0].toUpperCase()}`);
     setFormStatus("Please identify as male, female or others");
   }
