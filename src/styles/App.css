@@ -21,7 +21,8 @@ button {
   align-items: center;
   width: 80px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
 }
 
 input,
@@ -38,5 +39,5 @@ label,
 input,
 select {
   display: block;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
