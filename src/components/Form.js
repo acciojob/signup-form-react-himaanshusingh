@@ -35,12 +35,12 @@ const Form = () => {
   function validateEmail(email) {
     const trimmed = email.trim();
     if (/[@]/.test(trimmed)) return "";
-    return "Email must contain @";
+    return "email must contain @";
   }
 
   function validateGender(gender) {
   if (["male", "female", "other"].includes(gender)) return "";
-  return "Please identify as male, female or other";
+  return "Please identify as male, female or others";
 }
 
   function validatePhone(phone) {
