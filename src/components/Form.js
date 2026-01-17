@@ -1,93 +1,96 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+
+const emptyValues = { name: "", email: "", gender: "", phone: "", password: "" }; // prettier-ignore
+const emptyErrors = { nameErr: "", emailErr: "", genderErr: "", phoneErr: "", passwordErr: "" }; // prettier-ignore
 
 const Form = () => {
-  const [fieldError, setFieldsError] = useState("All fields are mandatory");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [genderError, setGenderError] = useState("");
-  const [numError, setNumError] = useState("");
-  const [pwdError, setPwdError] = useState("");
-  const [greet, setGreet] = useState("");
-  const userNameRef = useRef(""); // Add this
+  const [values, setValues] = useState(emptyValues);
+  const { name, email, gender, phone, password } = values;
+  const [errors, setErrors] = useState(emptyErrors);
+  const { nameErr, emailErr, genderErr, phoneErr, passwordErr } = errors;
+  const [formStatus, setFormStatus] = useState("");
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    setGreet(`Hello ${userNameRef.current}`); // Use ref
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+    setErrors({ ...errors, [`${name}Err`]: "" });
   }
 
-  function verifyName(evt) {
-    const name = evt.target.value;
-    if (!/^[a-zA-Z]+$/.test(name)) {
-      setNameError("Name is not alphanumeric");
-      setFieldsError("");
-    } else {
-      setNameError("");
-      setFieldsError("");
+  function handleSubmit(e) {
+    e.preventDefault();
+    const nameErr = validateName(name);
+    const emailErr = validateEmail(email);
+    const genderErr = validateGender(gender);
+    const phoneErr = validatePhone(phone);
+    const passwordErr = validatePassword(password);
+    const newErrors = { nameErr, emailErr, genderErr, phoneErr, passwordErr };
+    const hasError = Object.values(newErrors).some((err) => err != "");
+    if (hasError) {
+      setErrors(newErrors);
+      return setFormStatus("Please fix the above errors");
     }
+    alert(`Hello ${email.split("@")[0]}`);
+    setFormStatus("Your form has been submitted successfully");
   }
 
-  function verifyEmail(evt) {
-    const email = evt.target.value;
-    if (!email.includes("@")) {
-      setEmailError("email must contain @");
-      return;
-    }
-    setEmailError("");
-    userNameRef.current = email.split("@")[0].toUpperCase(); // Use ref
+  function validateName(name) {
+    const trimmed = name.trim();
+    if (!trimmed) return "Name is required";
+    if (/^[a-zA-Z]+$/.test(trimmed)) return "";
+    return "Name is not alphanumeric";
   }
 
-  function verifyGender(evt) {
-    const gender = evt.target.value;
-    if (gender == "notSelected")
-      setGenderError("Please identify as male, female or others");
-    else setGenderError("");
+  function validateEmail(email) {
+    const trimmed = email.trim();
+    if (!trimmed) return "Email is required";
+    if (/[@]/.test(trimmed)) return "";
+    return "Email must contain @";
   }
 
-  function verifyNumber(evt) {
-    const num = evt.target.value;
-    if (!/^[0-9]+$/.test(num))
-      setNumError("Phone Number must contain only numbers");
-    else setNumError("");
+  function validateGender(gender) {
+    const trimmed = gender.trim();
+    if (!trimmed) return "Gender is required";
+    if (["male", "female", "other"].includes(trimmed)) return "";
+    return " Please identify as male, female or others";
   }
 
-  function verifyPassword(evt) {
-    const pwd = evt.target.value;
-    if (!(pwd.length >= 6))
-      setPwdError("Password must contain atleast 6 letters");
-    else setPwdError("");
+  function validatePhone(phone) {
+    const trimmed = phone.trim();
+    if (!trimmed) return "Phone is required";
+    if (/^[0-9]+$/.test(trimmed)) return "";
+    return "Phone Number must contain only numbers";
+  }
+
+  function validatePassword(password) {
+    const trimmed = password.trim();
+    if (!trimmed) return "Name is required";
+    if (trimmed.length >= 6) return "";
+    return "Password must contain atleast 6 letters";
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{greet}</h2>
-      {/*prettier-ignore */}
-      <fieldset>
-        <legend>User Form</legend>
-        <label htmlFor="name">Name</label>
-        <input type="text" name="name" id="name" data-testid="name" onBlur={verifyName}/>
-        <span>{nameError}</span>
-        <label htmlFor="email">Email</label>
-        <input type="text" data-testid="email" id="email" onBlur={verifyEmail}/>
-        <span>{emailError}</span>
-        <label htmlFor="gender">Gender</label>
-        <select name="gender" id="gender" defaultValue="notSelected" data-testid="gender" onBlur={verifyGender}>
-          <option value="notSelected">Select any one</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <span>{genderError}</span>
-        <label htmlFor="phone">Phone</label>
-        <input type="text" data-testid="phoneNumber" required onBlur={verifyNumber}/>
-        <span>{numError}</span>
-        <label htmlFor="password">Password</label>
-        <input type="password" data-testid="password" id="password" onBlur={verifyPassword}/>
-        <span>{pwdError}</span>
-        <button data-testid="submit" type="submit">Submit</button>
-        <span>{fieldError}</span>
-      </fieldset>
-    </form>
-  );
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>Name *</label>
+        <input type="text" data-testid="name" name="name" onChange={handleChange} value={name}/>
+        <span>{nameErr}</span>
+        <label>Email *</label>
+        <input type="text" data-testid="email" name="email" onChange={handleChange} value={email}/>
+        <span>{emailErr}</span>
+        <label>Gender *</label>
+        <input type="text" data-testid="gender" name="gender" onChange={handleChange} value={gender} />
+        <span>{genderErr}</span>
+        <label>Phone Number *</label>
+        <input type="text" data-testid="phoneNumber" name="phone" onChange={handleChange} value={phone}/>
+        <span>{phoneErr}</span>
+        <label>Password *</label>
+        <input type="password" data-testid="password" name="password" onChange={handleChange} value={password}/>
+        <span>{passwordErr}</span><br />
+        <button data-testid="submit">Submit</button>
+        <p>{formStatus}</p>
+      </form>
+    </div>
+  ); // prettier-ignore
 };
 
 export default Form;
