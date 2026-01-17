@@ -18,6 +18,8 @@ const Form = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!name && !email && !gender && !phone && !password)
+      return setFormStatus("All fields are mandatory");
     const nameErr = validateName(name);
     const emailErr = validateEmail(email);
     const genderErr = validateGender(gender);
@@ -25,45 +27,37 @@ const Form = () => {
     const passwordErr = validatePassword(password);
     const newErrors = { nameErr, emailErr, genderErr, phoneErr, passwordErr };
     const hasError = Object.values(newErrors).some((err) => err != "");
-    if (hasError) {
-      setErrors(newErrors);
-      return setFormStatus("Please fix the above errors");
-    }
+    if (hasError) return setErrors(newErrors);
     alert(`Hello ${email.split("@")[0]}`);
     setFormStatus("Your form has been submitted successfully");
   }
 
   function validateName(name) {
     const trimmed = name.trim();
-    if (!trimmed) return "Name is required";
     if (/^[a-zA-Z]+$/.test(trimmed)) return "";
     return "Name is not alphanumeric";
   }
 
   function validateEmail(email) {
     const trimmed = email.trim();
-    if (!trimmed) return "Email is required";
     if (/[@]/.test(trimmed)) return "";
     return "Email must contain @";
   }
 
   function validateGender(gender) {
     const trimmed = gender.trim();
-    if (!trimmed) return "Gender is required";
     if (["male", "female", "other"].includes(trimmed)) return "";
     return " Please identify as male, female or others";
   }
 
   function validatePhone(phone) {
     const trimmed = phone.trim();
-    if (!trimmed) return "Phone is required";
     if (/^[0-9]+$/.test(trimmed)) return "";
     return "Phone Number must contain only numbers";
   }
 
   function validatePassword(password) {
     const trimmed = password.trim();
-    if (!trimmed) return "Name is required";
     if (trimmed.length >= 6) return "";
     return "Password must contain atleast 6 letters";
   }
@@ -87,7 +81,7 @@ const Form = () => {
         <input type="password" data-testid="password" name="password" onChange={handleChange} value={password}/>
         <span>{passwordErr}</span><br />
         <button data-testid="submit">Submit</button>
-        <p>{formStatus}</p>
+        <span>{formStatus}</span>
       </form>
     </div>
   ); // prettier-ignore
