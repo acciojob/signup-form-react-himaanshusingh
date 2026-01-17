@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const emptyValues = { name: "", email: "", gender: "", phone: "", password: "" }; // prettier-ignore
+const emptyValues = { name: "", email: "", gender: "", phone: "", password: "" };
 
 const Form = () => {
   const [values, setValues] = useState(emptyValues);
@@ -79,7 +79,7 @@ const Form = () => {
         <h2>{greet}</h2>
       </form>
     </div>
-  ); // prettier-ignore
+  );
 };
 
 export default Form;
